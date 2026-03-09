@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 import "net/http"
+import "os"
 
 func addCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -17,8 +18,15 @@ func githubHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	port := ":8082"
-	static_dir := "./files"
+	// Load from environment variables
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":8082"
+	}
+	static_dir := os.Getenv("STATIC_DIR")
+	if static_dir == "" {
+		static_dir = "./files"
+	}
 
 	mux := http.NewServeMux()
 
