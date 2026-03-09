@@ -3,6 +3,7 @@ package main
 import "fmt"
 import "net/http"
 import "os"
+import "os/exec"
 
 func addCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +15,20 @@ func addCORS(next http.Handler) http.Handler {
 }
 
 func githubHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello from the GitHub handler!")
+	// Secret
+
+	// Validate
+
+	fmt.Fprintf(w, "Deploy triggered!")
+
+	go func() {
+		cmd := exec.Command("./deploy.sh")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			fmt.Printf("Error running deploy script: %v\n", err)
+		}
+	}()
 }
 
 func main() {
