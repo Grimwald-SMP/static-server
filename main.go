@@ -18,7 +18,7 @@ func githubHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	port := ":8082"
-	static_dir := "../files"
+	static_dir := "./files"
 
 	mux := http.NewServeMux()
 
