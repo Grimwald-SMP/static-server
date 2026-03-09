@@ -3,7 +3,7 @@ set -e
 
 echo " - Pulling new server version from git"
 
-git pull origin main
+git pull origin master
 
 go build -o server main.go
 
